@@ -332,7 +332,7 @@ if (localStorage.token) {
 
 - `纯前端或者全栈应用部署在 heroku 上面的时候都需要有一个 server.js 文件配置 static 路径和文件。`
 
-- 取消 config ， 使用 dotenv。
+
 
 ```js
 const path = require('path');
@@ -354,5 +354,7 @@ if (process.env.NODE_ENV === 'production') {
 ```json
 "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 ```
+
+- 取消 config ， 使用 dotenv。
 
 
