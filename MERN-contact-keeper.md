@@ -62,15 +62,15 @@
     1. Create a new project.
 
     <p align="center">
-    <img src="../assets/m-p1-01.png" width=80%>
+    <img src="./assets/m-p1-01.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-02.png" width=80%>
+    <img src="./assets/m-p1-02.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-03.png" width=80%>
+    <img src="./assets/m-p1-03.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
@@ -78,19 +78,19 @@
     2. Build a cluster.
 
     <p align="center">
-    <img src="../assets/m-p1-04.png" width=80%>
+    <img src="./assets/m-p1-04.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-05.png" width=80%>
+    <img src="./assets/m-p1-05.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-06.png" width=80%>
+    <img src="./assets/m-p1-06.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-07.png" width=80%>
+    <img src="./assets/m-p1-07.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
@@ -98,11 +98,11 @@
     3. Create a user.
 
     <p align="center">
-    <img src="../assets/m-p1-08.png" width=80%>
+    <img src="./assets/m-p1-08.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-09.png" width=80%>
+    <img src="./assets/m-p1-09.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
@@ -110,11 +110,11 @@
     4. Set up white list ip address.
 
     <p align="center">
-    <img src="../assets/m-p1-10.png" width=80%>
+    <img src="./assets/m-p1-10.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-11.png" width=80%>
+    <img src="./assets/m-p1-11.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
@@ -122,11 +122,11 @@
     5. Connetct option.
 
     <p align="center">
-    <img src="../assets/m-p1-12.png" width=80%>
+    <img src="./assets/m-p1-12.png" width=80%>
     </p>
 
     <p align="center">
-    <img src="../assets/m-p1-13.png" width=80%>
+    <img src="./assets/m-p1-13.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
@@ -134,7 +134,7 @@
     6. Get connect string.
 
     <p align="center">
-    <img src="../assets/m-p1-14.png" width=80%>
+    <img src="./assets/m-p1-14.png" width=80%>
     </p>
 
     -----------------------------------------------------------------
