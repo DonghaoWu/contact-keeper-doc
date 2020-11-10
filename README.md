@@ -2,6 +2,6 @@
     - __`Code base: NEW`__ 
     - __`Doc Repo URL:`__[Contact keeper doc](https://github.com/DonghaoWu/contact-keeper-doc)
     - __`Deployed Repo URL:`__[Contact keeper heroku](https://github.com/DonghaoWu/github-finder-netlify)
-    - __`Key Words: React hooks, Github APi, Context patterns, react syntax(语法), netlify.`__
+    - __`Key Words: form fadio, useEffect, 跨 context 调用 method, mount & render, <a> & <Link> & history.push, PrivateRoute.`__
 
 - Back to [MERN-tools-demo](https://github.com/DonghaoWu/Frontend-tools-demo)
