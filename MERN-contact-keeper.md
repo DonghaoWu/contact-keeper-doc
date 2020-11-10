@@ -1,6 +1,6 @@
 # MERN tools demo (Part 1)
 
-### `Key Words: form fadio, useEffect, 跨 context 调用 method, mount & render, <a> & <Link> & history.push, PrivateRoute.`
+### `Key Words: font awesome, form fadio, useEffect, 跨 context 调用 method, mount & render, <a> & <Link> & history.push, PrivateRoute, set axios header before App.js.`
 
 - #### Click here: [BACK TO NAVIGASTION](https://github.com/DonghaoWu/MERN-tools-demo)
 
@@ -15,7 +15,7 @@
     - axios
     - react-router-dom
     - uuid
-    - fontawesome library
+    - font awesome library
 
 - Backend
     - express
@@ -38,8 +38,8 @@
 
 - [1.1 Backend set up.](#1.1)
 - [1.2 Frontend set up.](#1.2)
-- [1.3 Notes on this application..](#1.3)
-- [1.4 Firebase security.](#1.4)
+- [1.3 Notes on this application.](#1.3)
+- [1.4 Developer opinion.](#1.4)
 
 ------------------------------------------------------------
 
@@ -119,7 +119,7 @@
 
     -----------------------------------------------------------------
 
-    5. Connetct option.
+    5. Connect option.
 
     <p align="center">
     <img src="./assets/m-p1-12.png" width=80%>
@@ -274,7 +274,7 @@
 
     - 在 Auth context 里面增加一个新的 reducer 和 dispatch，此办法可以实现但不提倡，因为两个 reducer 违反了 `single of true` 原则。
 
-    - 第二种方法是借助 auth context 传递到 component 的 state 配合 `useEffect`，在 `useEffect` 中掉=调用对应的 alert context 中的 method，代码如下：
+    - 第二种方法是借助 auth context 传递到 component 的 state 配合 `useEffect`，在 `useEffect` 中调用对应的 alert context 中的 method，代码如下：
 
     1. Register.js
     ```js
@@ -365,18 +365,18 @@
 
 - #### Click here: [BACK TO CONTENT](#1.0)
 
-1. 源代码的错误地方： loadUser 不应该在 Home 中的 useEffect 执行，这样做会在一个行为中产生非预期反应：
+1. 源代码的错误地方： loadUser 不应该在 Home 中的 useEffect 执行，这样做会在一个行为中产生非预期行为：
 
     - 如果一个用户刚注册，系统跳转到 home，这是没问题的。
-    - 如果用户关闭应用，这时 token 还在，如果用户直接打开 主页 `/`,也还是能够直达主页，这也是没问题
+    - 如果用户关闭应用，这时 token 还在，如果用户直接打开主页 `/`,也还是能够直达主页，这也是没问题
     - 如果用户关闭应用，然后直接打开 `register`， 这时还是可以连接 regester 页面，而不会跳转到 `/`, 这是我们预期的行为吗
 
-    - `所以我认为目前最好的方案是，当一个用户注册/登陆厚，即有 token 保存在 localStorage 之后，必须实现`
+    - `所以我认为目前最好的方案是，当一个用户注册/登陆后，即有 token 保存在 localStorage 时，实现`
         - navbar 中没有 register 按钮
         - 在url 中输入 `/register` 后，自动跳转回 `/`
         - 退出应用后在url 中输入 `/register` 后，自动跳转回 `/`
 
-    - 为了实现上述行为，对源代码进行了修改，不在 Home 中的 useEffect 调用 loadUser，改在 APP 中调用，由于需要在 App 中引用 useContext，所以干脆把 3 个 context api 转上一级到 index.js：
+    - 为了实现上述行为，对源代码进行了修改，不在 Home 中的 useEffect 调用 loadUser，`改在 APP 中的 useEffect 调用，`由于需要在 App 中引用 useContext，所以干脆把 3 个 context api 转上一级到 index.js：
 
         ```js
         import React from 'react';
@@ -425,16 +425,16 @@
 
 3. 一个微小的调试错误：
 
-    - 当用户登录/注册后，系统转到 `/`,然后调用 `getContacts`，这时是成功的，但保持这个页面，进行一次刷新动作，系统重新调用 `getContacts` 和 `loadUser`, 其从控制台看出，`getContacts` 比 `loadUser` 早运行，这个时候的结果是`getContacts` 无法读取数据。`造成的结果是已经登陆的 user 只能在登陆跳转时才能看到自己的数据，而在刷新之后就会显示错误。`
+    - 当用户登录/注册后，系统转到 `/`,然后调用 `getContacts`，这时是成功的，但在这个页面进行一次刷新动作，系统重新调用 `getContacts` 和 `loadUser`, 其从控制台看出，`getContacts` 比 `loadUser` 早运行，这个时候的结果是`getContacts` 无法读取数据。`造成的结果是已经登陆的 user 只能在登陆跳转时才能看到自己的数据，而在刷新之后就会显示错误。`
 
-    - 解析原因，因为刷新的时候，`localStorage.token`依然会在，但 axios 的 header 会被清空，这个时候出现`getContacts` 比 `loadUser` 早运行，因为只有 `loadUser` 有设置 axios header 的function，所以 `getContacts` 是没有 axios header 的请求，所以不成功。
+    - 解析原因，因为刷新的时候，`localStorage.token`依然会在，但 axios 的 header 会被清空，这个时候出现`getContacts` 比 `loadUser` 早运行，因为只有 `loadUser` 有设置 axios header 的 method。 `getContacts` 在这种情况下是没有 axios header 的请求，所以不成功。
 
     - :gem::gem::gem: 解决方案，就是在 App 中加入：
-    ```js
-    if (localStorage.token) {
-        setAuthToken(localStorage.token);
-    }
-    ```
+        ```js
+        if (localStorage.token) {
+            setAuthToken(localStorage.token);
+        }
+        ```
 
     - 这就是加入这段代码的原因，在打开/刷新 app 的情况下，首先设置好 axios header，这样就不怕一旦子 component 的 request 比 App 中的 loadUser 早的时候没有 header 的情况。
 
@@ -449,7 +449,7 @@
 
 2. 解决这个情况还有一个方案，就是只在 APP 中使用 loadUser，在 loadUser 中加载好所有的数据，从而不需要在其他页面发出数据请求，这个方案的缺点是请求太多，负载可能会很重。
 
-3. :gem::gem::gem: 相比之下在 APP 中加入以上代码，可以更加轻量化，并且不需要一次过加载所有数据，这个做法可以对之前的一些 application 进行优化（stock app）。
+3. :gem::gem::gem: 相比之下在 APP 中加入以上代码，可以更加轻量化，并且不需要一次过加载所有数据，这个做法可以对之前的一些 application 进行优化（如 stock app）。
 
 __`本章用到的全部资料：`__
 
