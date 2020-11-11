@@ -1,6 +1,6 @@
 # MERN tools demo (Part 1)
 
-### `Key Words: font awesome, form fadio, useEffect, 跨 context 调用 method, mount & render, <a> & <Link> & history.push, PrivateRoute, set axios header before App.js.`
+### `Key Words: MongoDB Altas setup, font awesome, form radio, useEffect, 跨 context 调用 method, mount & render, <a> & <Link> & history.push, Private Route, set axios header before App.js.`
 
 - #### Click here: [BACK TO NAVIGASTION](https://github.com/DonghaoWu/MERN-tools-demo)
 
@@ -28,7 +28,7 @@
 ------------------------------------------------------------
 
 #### `本章背景：`
-1. 
+1. 本 app 使用的技术栈是 MongoDB, React Context API, express, node.js.
 
 ------------------------------------------------------------
 
@@ -39,7 +39,7 @@
 - [1.1 Backend set up.](#1.1)
 - [1.2 Frontend set up.](#1.2)
 - [1.3 Notes on this application.](#1.3)
-- [1.4 Developer opinion.](#1.4)
+- [1.4 Developer advices.](#1.4)
 
 ------------------------------------------------------------
 
@@ -272,21 +272,21 @@
 
 1. 目前来看 contextAPI 的缺点是无法跨 context 调动 method，所有的 context method 都是只能垂直传递，而不能横向跨越调动。比如说不能在 auth context 的 method 中调动 alert context 里面的 method，具体例子是：想实现注册错误时由 Alert 组件显示错误提示信息，可以通过两个办法实现：
 
-    - 在 Auth context 里面增加一个新的 reducer 和 dispatch，此办法可以实现但不提倡，因为两个 reducer 违反了 `single of true` 原则。
+    - 在 Auth context 里面增加一个新的 reducer 和 dispatch，此办法可以实现但不提倡，因为两个 reducer 违反了 `single source of true` 原则。
 
-    - 第二种方法是借助 auth context 传递到 component 的 state 配合 `useEffect`，在 `useEffect` 中调用对应的 alert context 中的 method，代码如下：
+    - 第二种方法是(:gem::gem::gem: `auth context method => auth context state => component => useEffect => alert method`)， 代码如下：
 
     1. Register.js
     ```js
-        const { setAlert } = useContext(AlertsContext);
-        const { register, error, clearErrors } = useContext(AuthContext);
+    const { setAlert } = useContext(AlertsContext);
+    const { register, error, clearErrors } = useContext(AuthContext);
 
-        useEffect(() => {
-            if (error) {
-                setAlert(error, 'danger');
-                clearErrors();
-            }
-        }, [error])
+    useEffect(() => {
+        if (error) {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+    }, [error])
     ```
 
     2. AuthState.js
@@ -361,7 +361,7 @@
 
 2. 对 mount 和 render 的区别认识，先 mount 后 render， mount 比 render 重要。mount 可以改变 state 然后触发 render，但 render 只需要 state 改变了就会重新运行。
 
-### <span id="1.4">`Step4: Developer opinion.`</span>
+### <span id="1.4">`Step4: Developer advices.`</span>
 
 - #### Click here: [BACK TO CONTENT](#1.0)
 
@@ -369,14 +369,14 @@
 
     - 如果一个用户刚注册，系统跳转到 home，这是没问题的。
     - 如果用户关闭应用，这时 token 还在，如果用户直接打开主页 `/`,也还是能够直达主页，这也是没问题
-    - 如果用户关闭应用，然后直接打开 `register`， 这时还是可以连接 regester 页面，而不会跳转到 `/`, 这是我们预期的行为吗
+    - 如果用户关闭应用，然后直接打开 `register`， 这时还是可以连接 register 页面，而不会跳转到 `/`, 这是我们预期的行为吗
 
     - `所以我认为目前最好的方案是，当一个用户注册/登陆后，即有 token 保存在 localStorage 时，实现`
         - navbar 中没有 register 按钮
         - 在url 中输入 `/register` 后，自动跳转回 `/`
         - 退出应用后在url 中输入 `/register` 后，自动跳转回 `/`
 
-    - 为了实现上述行为，对源代码进行了修改，不在 Home 中的 useEffect 调用 loadUser，`改在 APP 中的 useEffect 调用，`由于需要在 App 中引用 useContext，所以干脆把 3 个 context api 转上一级到 index.js：
+    - 为了实现上述行为，对源代码进行了修改，不在 Home 中的 useEffect 调用 loadUser，:gem::gem::gem:`改在 APP 中的 useEffect 调用，`由于需要在 App 中引用 useContext，所以干脆把 3个 context api 转上一级到 index.js：
 
         ```js
         import React from 'react';
@@ -390,11 +390,11 @@
         ReactDOM.render(
             <React.StrictMode>
                 <AuthState>
-                <ContactState>
-                    <AlertsState>
-                    <App />
-                    </AlertsState>
-                </ContactState>
+                    <ContactState>
+                        <AlertsState>
+                            <App />
+                        </AlertsState>
+                    </ContactState>
                 </AuthState>
             </React.StrictMode>,
             document.getElementById('root')
@@ -423,7 +423,7 @@
     export default PrivateRoute
     ```
 
-3. 一个微小的调试错误：
+3. 一个调试错误：
 
     - 当用户登录/注册后，系统转到 `/`,然后调用 `getContacts`，这时是成功的，但在这个页面进行一次刷新动作，系统重新调用 `getContacts` 和 `loadUser`, 其从控制台看出，`getContacts` 比 `loadUser` 早运行，这个时候的结果是`getContacts` 无法读取数据。`造成的结果是已经登陆的 user 只能在登陆跳转时才能看到自己的数据，而在刷新之后就会显示错误。`
 
